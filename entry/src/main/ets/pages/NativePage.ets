@@ -1,0 +1,59 @@
+import { LAYOUT_WIDTH_OR_HEIGHT } from '../utils/CommonConstants';
+import promptAction from '@ohos.promptAction';
+import { Lsdk } from '@ohos/staticlibrary';
+
+const TAG = 'Native_Test'
+
+@Entry
+@Component
+struct NativePage {
+  private mbuffer?: ArrayBuffer
+  private mTokenId = ''
+  private mblackbox = ''
+
+  @Styles
+  ButtonStyle(){
+    .width('100%')
+    .height('40vp')
+    .backgroundColor($r('app.color.login_button_color'))
+    .margin({
+      top: '30vp',
+      bottom: '10vp'
+    })
+  }
+
+  build() {
+    Row() {
+      Navigation() {
+        Scroll() {
+          Column() {
+            Button('test')
+              .ButtonStyle()
+              .onClick(() => {
+                const result = Lsdk.add()
+                promptAction.showToast({
+                  message: `the result:${result}`
+                })
+              })
+          }
+          .padding({ left: '20vp', right: '20vp' })
+          .width(LAYOUT_WIDTH_OR_HEIGHT)
+          .height(LAYOUT_WIDTH_OR_HEIGHT)
+          .alignItems(HorizontalAlign.Center)
+          .margin({ bottom: '50vp' })
+        }
+        .scrollBar(BarState.Off)
+        .edgeEffect(EdgeEffect.Spring)
+        .width(LAYOUT_WIDTH_OR_HEIGHT)
+        .height(LAYOUT_WIDTH_OR_HEIGHT)
+      }
+      .size({ width: LAYOUT_WIDTH_OR_HEIGHT, height: LAYOUT_WIDTH_OR_HEIGHT })
+      .title('NativePage')
+      .titleMode(NavigationTitleMode.Mini)
+    }
+
+    .backgroundColor('#F1F3F5')
+    .height(LAYOUT_WIDTH_OR_HEIGHT)
+  }
+}
+

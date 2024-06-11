@@ -1,0 +1,12 @@
+{
+  "src": [
+    "pages/Index",
+    "pages/ThreadPage",
+    "pages/DeviceInfoPage",
+    "pages/PermissionPage",
+    "pages/FileStoragePage",
+    "pages/NetworkPage",
+    "pages/NativePage",
+    "pages/BlackboxPage"
+  ]
+}

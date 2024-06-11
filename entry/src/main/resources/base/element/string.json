@@ -1,0 +1,28 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "module description"
+    },
+    {
+      "name": "EntryAbility_desc",
+      "value": "description"
+    },
+    {
+      "name": "EntryAbility_label",
+      "value": "Harmony11OsDemo"
+    },
+    {
+      "name": "reason_network_info",
+      "value": "用于网络信息获取"
+    },
+    {
+      "name": "reason_risk",
+      "value": "用于风控识别"
+    },
+    {
+      "name": "http_response_error",
+      "value": "Request error, please check if there is a network."
+    }
+  ]
+}
