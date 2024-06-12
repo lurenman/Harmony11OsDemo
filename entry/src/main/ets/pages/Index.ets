@@ -90,7 +90,11 @@ struct Index {
             .onClick(() => {
               UiUtils.routerPage('pages/NativePage')
             })
-
+          Button('服务相关')
+            .ButtonStyle()
+            .onClick(() => {
+              UiUtils.routerPage('pages/ServicePage')
+            })
         }
         .padding({ left: '20vp', right: '20vp' })
         .width(LAYOUT_WIDTH_OR_HEIGHT)
