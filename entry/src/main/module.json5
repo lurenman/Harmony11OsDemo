@@ -114,6 +114,16 @@
           "when": "always"
         }
       },
+      {
+        "name": "ohos.permission.STORE_PERSISTENT_DATA",
+        "reason": "$string:reason_risk",
+        "usedScene": {
+          "abilities": [
+            "EntryAbility"
+          ],
+          "when": "always"
+        }
+      },
       //      {
       //        "name": "ohos.permission.GET_INSTALLED_BUNDLE_LIST",
       //        "reason": "$string:reason_risk",
