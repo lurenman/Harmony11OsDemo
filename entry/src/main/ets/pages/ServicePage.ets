@@ -2,6 +2,9 @@ import { LAYOUT_WIDTH_OR_HEIGHT } from '../utils/CommonConstants';
 import { Logger } from '../utils/Log';
 import accessibility from '@ohos.accessibility';
 import { BusinessError } from '@ohos.base';
+import { common } from '@kit.AbilityKit';
+import { identifier } from '@kit.AdsKit';
+import { PermissionUtil } from '../utils/PermissionUtil';
 
 const TAG = 'ServicePage'
 
@@ -34,8 +37,40 @@ struct ServicePage {
                     Logger.debug(TAG, `Succeeded in get accessibility extension list, ${JSON.stringify(data)}`)
                   })
                   .catch((err: BusinessError) => {
-                    Logger.error(TAG, `failed to get accessibility extension list, Code is ${err.code}, message is ${err.message}`);
+                    Logger.error(TAG,
+                      `failed to get accessibility extension list, Code is ${err.code}, message is ${err.message}`);
                   });
+              })
+            Button('oaid')
+              .ButtonStyle()
+              .onClick(() => {
+                if (PermissionUtil.checkPermissions('ohos.permission.APP_TRACKING_CONSENT')) {
+                  //有权限
+                  identifier.getOAID((err: BusinessError, data: string) => {
+                    if (err.code) {
+                      Logger.error(TAG, `get oaid failed, error: ${err.code} ${err.message}`);
+                    } else {
+                      const oaid: string = data;
+                      Logger.debug(TAG, `succeeded in getting oaid by callback , oaid: ${oaid}`);
+                    }
+                  })
+                } else {
+                  //没有权限请求权限
+                  let context: Context = getContext(this) as common.UIAbilityContext;
+                  PermissionUtil.requestPermissionsFromUser(context, 'ohos.permission.APP_TRACKING_CONSENT')
+                    .then((s: boolean) => {
+                      if (s) {
+                        identifier.getOAID((err: BusinessError, data: string) => {
+                          if (err.code) {
+                            Logger.error(TAG, `get oaid failed, error: ${err.code} ${err.message}`);
+                          } else {
+                            const oaid: string = data;
+                            Logger.debug(TAG, `succeeded in getting oaid by callback , oaid: ${oaid}`);
+                          }
+                        })
+                      }
+                    })
+                }
               })
           }
           .padding({ left: '20vp', right: '20vp' })
