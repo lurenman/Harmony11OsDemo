@@ -8,6 +8,7 @@ import { PermissionUtil } from '../utils/PermissionUtil';
 import { util } from '@kit.ArkTS';
 import { asset } from '@kit.AssetStoreKit';
 import { AAID } from '@kit.PushKit';
+import DrmModel from '../viewmodel/DrmModel';
 
 const TAG = 'ServicePage'
 
@@ -203,6 +204,16 @@ struct ServicePage {
                   let e: BusinessError = err as BusinessError;
                   Logger.error(TAG, `Failed to delete AAID. Code is ${err.code}, message is ${err.message}`);
                 }
+              })
+            Button('DRM')
+              .ButtonStyle()
+              .onClick(() => {
+                let isSupported = DrmModel.isMediaKeySystemSupported1("com.wiseplay.drm")
+                Logger.debug(TAG, `isSupported:${isSupported}`);
+                let uuid = DrmModel.getMediaKeySystemUuid("com.wiseplay.drm")
+                Logger.debug(TAG, `drm uuid:${uuid}`);
+                let mediaKeySystemDescriptionList = DrmModel.getMediaKeySystems()
+                Logger.debug(TAG, `mediaKeySystemDescriptionList:${mediaKeySystemDescriptionList.toString()}`);
               })
           }
           .padding({ left: '20vp', right: '20vp' })
