@@ -46,14 +46,37 @@ struct ServicePage {
               .ButtonStyle()
               .onClick(() => {
                 let abilityType: accessibility.AbilityType = 'all';
-                let abilityState: accessibility.AbilityState = 'enable';
+                let abilityState: accessibility.AbilityState = 'install';
                 accessibility.getAccessibilityExtensionList(abilityType, abilityState)
                   .then((data: accessibility.AccessibilityAbilityInfo[]) => {
                     Logger.debug(TAG, `Succeeded in get accessibility extension list, ${JSON.stringify(data)}`)
+                    let accessibilityList: Array<object> = []
+                    data.forEach((info: accessibility.AccessibilityAbilityInfo) => {
+                      const bundleName = info.bundleName
+                      const name = info.name
+                      const label = info.label
+                      let tmplist: Array<string> = []
+                      tmplist.push(bundleName)
+                      tmplist.push(name)
+                      //tmplist.push("华为阅读器")
+                      if (label) {
+                        tmplist.push(label)
+                      } else {
+                        tmplist.push('')
+                      }
+                      accessibilityList.push(tmplist)
+                      // let tmplist1: Array<string> = []
+                      // tmplist1.push(bundleName)
+                      // tmplist1.push(name)
+                      // tmplist1.push("la")
+                      // accessibilityList.push(tmplist1)
+                    })
+                    Logger.debug(TAG, `accessibilityList: ${JSON.stringify(accessibilityList)}`)
                   })
                   .catch((err: BusinessError) => {
                     Logger.error(TAG,
                       `failed to get accessibility extension list, Code is ${err.code}, message is ${err.message}`);
+
                   });
               })
             Button('oaid')
@@ -98,7 +121,7 @@ struct ServicePage {
                 //首次解锁后可访问
                 attr.set(asset.Tag.ACCESSIBILITY, asset.Accessibility.DEVICE_FIRST_UNLOCKED);
                 //不允许同步关键资产
-                attr.set(asset.Tag.SYNC_TYPE, asset.SyncType.NEVER);
+                attr.set(asset.Tag.SYNC_TYPE, asset.SyncType.THIS_DEVICE);
                 //在应用卸载时是否需要保留关键资产。需要权限： ohos.permission.STORE_PERSISTENT_DATA
                 attr.set(asset.Tag.IS_PERSISTENT, true);
                 //新增关键资产时的冲突（如：别名相同）处理策略。默认就是抛异常
