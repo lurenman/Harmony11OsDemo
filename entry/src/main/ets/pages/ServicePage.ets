@@ -9,6 +9,7 @@ import { util } from '@kit.ArkTS';
 import { asset } from '@kit.AssetStoreKit';
 import { AAID } from '@kit.PushKit';
 import DrmModel from '../viewmodel/DrmModel';
+import { audio } from '@kit.AudioKit';
 
 const TAG = 'ServicePage'
 
@@ -238,12 +239,23 @@ struct ServicePage {
                 let mediaKeySystemDescriptionList = DrmModel.getMediaKeySystems()
                 Logger.debug(TAG, `mediaKeySystemDescriptionList:${mediaKeySystemDescriptionList.toString()}`);
               })
+
+            Button('AudioScene')
+              .ButtonStyle()
+              .onClick(() => {
+                let audioManager = audio.getAudioManager();
+                audioManager.getAudioScene().then((value: audio.AudioScene) => {
+                  Logger.debug(TAG, `Promise returned to indicate that the audio scene mode is obtained ${value}.`);
+                }).catch((err: BusinessError) => {
+                  Logger.error(TAG, `Failed to obtain the audio scene mode ${err}`);
+                });
+              })
           }
           .padding({ left: '20vp', right: '20vp' })
           .width(LAYOUT_WIDTH_OR_HEIGHT)
           .height(LAYOUT_WIDTH_OR_HEIGHT)
           .alignItems(HorizontalAlign.Center)
-          .margin({ bottom: '50vp' })
+          .margin({ bottom: '100vp' })
         }
         .scrollBar(BarState.Off)
         .edgeEffect(EdgeEffect.Spring)
@@ -251,7 +263,7 @@ struct ServicePage {
         .height(LAYOUT_WIDTH_OR_HEIGHT)
       }
       .size({ width: LAYOUT_WIDTH_OR_HEIGHT, height: LAYOUT_WIDTH_OR_HEIGHT })
-      .title('NativePage')
+      .title(TAG)
       .titleMode(NavigationTitleMode.Mini)
     }
 
