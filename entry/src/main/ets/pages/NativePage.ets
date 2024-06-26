@@ -12,7 +12,7 @@ struct NativePage {
   private mblackbox = ''
 
   @Styles
-  ButtonStyle(){
+  bStyle(){
     .width('100%')
     .height('40vp')
     .backgroundColor($r('app.color.login_button_color'))
@@ -28,7 +28,7 @@ struct NativePage {
         Scroll() {
           Column() {
             Button('test')
-              .ButtonStyle()
+              .bStyle()
               .onClick(() => {
                 const result = Lsdk.add()
                 promptAction.showToast({

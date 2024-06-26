@@ -10,6 +10,7 @@ import { asset } from '@kit.AssetStoreKit';
 import { AAID } from '@kit.PushKit';
 import DrmModel from '../viewmodel/DrmModel';
 import { audio } from '@kit.AudioKit';
+import { media } from '@kit.MediaKit';
 
 const TAG = 'ServicePage'
 
@@ -28,7 +29,7 @@ function arrayToString(arr: Uint8Array): string {
 @Component
 struct ServicePage {
   @Styles
-  ButtonStyle(){
+  bStyle(){
     .width('100%')
     .height('40vp')
     .backgroundColor($r('app.color.login_button_color'))
@@ -44,7 +45,7 @@ struct ServicePage {
         Scroll() {
           Column() {
             Button('获取无障碍服务列表')
-              .ButtonStyle()
+              .bStyle()
               .onClick(() => {
                 let abilityType: accessibility.AbilityType = 'all';
                 let abilityState: accessibility.AbilityState = 'install';
@@ -81,7 +82,7 @@ struct ServicePage {
                   });
               })
             Button('oaid')
-              .ButtonStyle()
+              .bStyle()
               .onClick(() => {
                 if (PermissionUtil.checkPermissions('ohos.permission.APP_TRACKING_CONSENT')) {
                   //有权限
@@ -113,7 +114,7 @@ struct ServicePage {
               })
 
             Button('新增关键资产ArkTS')
-              .ButtonStyle()
+              .bStyle()
               .onClick(() => {
                 let attr: asset.AssetMap = new Map();
                 attr.set(asset.Tag.SECRET,
@@ -141,7 +142,7 @@ struct ServicePage {
                 }
               })
             Button('查询关键资产ArkTS')
-              .ButtonStyle()
+              .bStyle()
               .onClick(() => {
                 let query: asset.AssetMap = new Map();
                 query.set(asset.Tag.ALIAS, stringToArray('td_xxid')); // 指定了关键资产别名，最多查询到一条满足条件的关键资产
@@ -165,7 +166,7 @@ struct ServicePage {
               })
 
             Button('更新关键资产ArkTS')
-              .ButtonStyle()
+              .bStyle()
               .onClick(() => {
                 let query: asset.AssetMap = new Map();
                 query.set(asset.Tag.ALIAS, stringToArray('td_xxid'));
@@ -185,7 +186,7 @@ struct ServicePage {
               })
 
             Button('更新关键资产ArkTS')
-              .ButtonStyle()
+              .bStyle()
               .onClick(() => {
                 let query: asset.AssetMap = new Map();
                 query.set(asset.Tag.ALIAS, stringToArray('td_xxid'));
@@ -205,7 +206,7 @@ struct ServicePage {
               })
 
             Button('获取AAID')
-              .ButtonStyle()
+              .bStyle()
               .onClick(async () => {
                 // 获取AAID
                 try {
@@ -219,7 +220,7 @@ struct ServicePage {
               })
 
             Button('删除AAID')
-              .ButtonStyle()
+              .bStyle()
               .onClick(async () => {
                 try {
                   await AAID.deleteAAID()
@@ -230,7 +231,7 @@ struct ServicePage {
                 }
               })
             Button('DRM')
-              .ButtonStyle()
+              .bStyle()
               .onClick(() => {
                 let isSupported = DrmModel.isMediaKeySystemSupported1("com.wiseplay.drm")
                 Logger.debug(TAG, `isSupported:${isSupported}`);
@@ -241,7 +242,7 @@ struct ServicePage {
               })
 
             Button('AudioScene')
-              .ButtonStyle()
+              .bStyle()
               .onClick(() => {
                 let audioManager = audio.getAudioManager();
                 audioManager.getAudioScene().then((value: audio.AudioScene) => {
@@ -250,12 +251,27 @@ struct ServicePage {
                   Logger.error(TAG, `Failed to obtain the audio scene mode ${err}`);
                 });
               })
+
+            Button('检测录制状态')
+              .bStyle()
+              .onClick(() => {
+                let avRecorder: media.AVRecorder;
+                media.createAVRecorder().then((recorder: media.AVRecorder) => {
+                  avRecorder = recorder;
+                  let state = avRecorder.state
+
+                  Logger.debug(TAG, `录屏状态：${state}`);
+                }, (error: BusinessError) => {
+                  Logger.error(TAG, 'createAVRecorder failed');
+                })
+
+              })
           }
           .padding({ left: '20vp', right: '20vp' })
           .width(LAYOUT_WIDTH_OR_HEIGHT)
           .height(LAYOUT_WIDTH_OR_HEIGHT)
           .alignItems(HorizontalAlign.Center)
-          .margin({ bottom: '100vp' })
+          .margin({ bottom: '200vp' })
         }
         .scrollBar(BarState.Off)
         .edgeEffect(EdgeEffect.Spring)

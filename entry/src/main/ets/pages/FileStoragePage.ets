@@ -12,7 +12,7 @@ let preferences: data_preferences.Preferences | null = null;
 @Component
 struct FileStoragePage {
   @Styles
-  ButtonStyle(){
+  bStyle(){
     .width('100%')
     .height('40vp')
     .backgroundColor($r('app.color.login_button_color'))
@@ -28,7 +28,7 @@ struct FileStoragePage {
         Scroll() {
           Column() {
             Button('context路径获取')
-              .ButtonStyle()
+              .bStyle()
               .onClick(() => {
                 let context: Context = getContext(this) as common.UIAbilityContext;
                 let applicationContext = context.getApplicationContext()
@@ -65,7 +65,7 @@ struct FileStoragePage {
 
               })
             Button('首选项初始化')
-              .ButtonStyle()
+              .bStyle()
               .onClick(() => {
                 try {
                   let context: Context = getContext(this) as common.UIAbilityContext;
@@ -79,7 +79,7 @@ struct FileStoragePage {
                 }
               })
             Button('首选项put')
-              .ButtonStyle()
+              .bStyle()
               .onClick(() => {
                 if (preferences) {
                   preferences.has("name", (err, val) => {
@@ -101,7 +101,7 @@ struct FileStoragePage {
               })
 
             Button('首选项get')
-              .ButtonStyle()
+              .bStyle()
               .onClick(() => {
                 if (preferences) {
                   preferences.get('name', "lufei").then((value) => {
@@ -110,7 +110,7 @@ struct FileStoragePage {
                 }
               })
             Button('写file')
-              .ButtonStyle()
+              .bStyle()
               .onClick(() => {
                 let context: Context = getContext(this) as common.UIAbilityContext;
                 let applicationContext = context.getApplicationContext()
@@ -124,7 +124,7 @@ struct FileStoragePage {
               })
 
             Button('读file')
-              .ButtonStyle()
+              .bStyle()
               .onClick(() => {
                 let context: Context = getContext(this) as common.UIAbilityContext;
                 let applicationContext = context.getApplicationContext()
@@ -133,7 +133,7 @@ struct FileStoragePage {
                 console.debug(TAG, "读file:" + result)
               })
             Button('删除file')
-              .ButtonStyle()
+              .bStyle()
               .onClick(() => {
                 let context: Context = getContext(this) as common.UIAbilityContext;
                 let applicationContext = context.getApplicationContext()

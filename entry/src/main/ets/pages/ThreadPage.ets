@@ -92,7 +92,7 @@ struct ThreadPage {
   static b = 1
 
   @Styles
-  ButtonStyle(){
+  bStyle(){
     .width('100%')
     .height('40vp')
     .backgroundColor($r('app.color.login_button_color'))
@@ -109,7 +109,7 @@ struct ThreadPage {
           Column() {
 
             Button('Promise')
-              .ButtonStyle()
+              .bStyle()
               .onClick(() => {
                 // let promise = promiseAsyncFunction(ThreadPage.b)
                 // promise.then((result) => {
@@ -124,7 +124,7 @@ struct ThreadPage {
               })
 
             Button('Promise1')
-              .ButtonStyle()
+              .bStyle()
               .onClick(async () => {
                 let data = new dataClass()
                 // let promise = promiseAsyncFunction1(data)
@@ -140,7 +140,7 @@ struct ThreadPage {
               })
 
             Button('taskpool')
-              .ButtonStyle()
+              .bStyle()
               .onClick(() => {
                 let produceTask: taskpool.Task = new taskpool.Task(produce3, this.a)
                 let consumer: Consumer = new Consumer()
@@ -159,7 +159,7 @@ struct ThreadPage {
               })
 
             Button('taskpool1')
-              .ButtonStyle()
+              .bStyle()
               .onClick(async () => {
                 let produceTask: taskpool.Task = new taskpool.Task(produce4, this.a)
                 let consumer: Consumer = new Consumer()
@@ -178,7 +178,7 @@ struct ThreadPage {
               })
 
             Button('taskpoolTransfer')
-              .ButtonStyle()
+              .bStyle()
               .onClick(() => {
                 let task: taskpool.Task = new taskpool.Task(testTransfer, view, view1);
                 task.setTransferList([view.buffer, view1.buffer]);
@@ -203,7 +203,7 @@ struct ThreadPage {
             //     Logger.debug(TAG, "testTransferShare view byteLength: " + shareview.byteLength);
             //   })
             Button('worker')
-              .ButtonStyle()
+              .bStyle()
               .onClick(() => {
                 let w: worker.ThreadWorker = new worker.ThreadWorker('entry/ets/workers/MyWorker.ts');
                 w.onmessage = (res): void => {

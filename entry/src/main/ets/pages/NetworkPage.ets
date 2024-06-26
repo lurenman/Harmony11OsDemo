@@ -6,39 +6,38 @@ import HashMap from '@ohos.util.HashMap';
 
 const TAG = 'NetworkPage'
 
+@Styles
+function bStyle() {
+  .width('100%')
+  .height('40vp')
+  .backgroundColor($r('app.color.login_button_color'))
+  .margin({
+    top: '30vp',
+    bottom: '10vp'
+  })
+}
 
 @Entry
 @Component
 struct NetworkPage {
-  @Styles
-  ButtonStyle(){
-    .width('100%')
-    .height('40vp')
-    .backgroundColor($r('app.color.login_button_color'))
-    .margin({
-      top: '30vp',
-      bottom: '10vp'
-    })
-  }
-
   build() {
     Row() {
       Navigation() {
         Scroll() {
           Column() {
             Button('httpGet')
-              .ButtonStyle()
+              .bStyle()
               .onClick(() => {
                 this.onGetRequest()
               })
             Button('httpPost')
-              .ButtonStyle()
+              .bStyle()
               .onClick(() => {
                 //todo
                 this.onPostRequest()
               })
             Button('httpPostBuffer')
-              .ButtonStyle()
+              .bStyle()
               .onClick(() => {
                 //todo
                 //this.onPostBufferRequest()

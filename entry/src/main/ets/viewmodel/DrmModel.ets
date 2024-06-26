@@ -54,7 +54,13 @@ export class DrmModel {
   public getMediaKeySystemUuid(name: string): string {
     let uuid = ''
     try {
-      uuid = drm.getMediaKeySystemUuid(name);
+      //uuid = drm.getMediaKeySystemUuid(name);
+      const list = drm.getMediaKeySystems()
+      for (let i = 0; i < list.length; i++) {
+        const element = list[i]
+        const name = element.name
+        const uuid = element.uuid
+      }
     } catch (err) {
       let error = err as BusinessError;
       console.error(`getMediaKeySystems ERROR: ${error}`)

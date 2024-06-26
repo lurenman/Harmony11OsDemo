@@ -40,7 +40,7 @@ struct PermissionPage {
   }
 
   @Styles
-  ButtonStyle(){
+  bStyle(){
     .width('100%')
     .height('40vp')
     .backgroundColor($r('app.color.login_button_color'))
@@ -56,7 +56,7 @@ struct PermissionPage {
         Scroll() {
           Column() {
             Button('check')
-              .ButtonStyle()
+              .bStyle()
               .onClick(() => {
                let permission = 'ohos.permission.APPROXIMATELY_LOCATION' as Permissions
                 //let permission = 'ohos.permission.LOCATION' as Permissions
