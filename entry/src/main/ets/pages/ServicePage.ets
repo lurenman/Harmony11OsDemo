@@ -10,8 +10,7 @@ import { asset } from '@kit.AssetStoreKit';
 import { AAID } from '@kit.PushKit';
 import DrmModel from '../viewmodel/DrmModel';
 import { audio } from '@kit.AudioKit';
-import { media } from '@kit.MediaKit';
-
+import { display } from '@kit.ArkUI';
 const TAG = 'ServicePage'
 
 function stringToArray(str: string): Uint8Array {
@@ -28,6 +27,8 @@ function arrayToString(arr: Uint8Array): string {
 @Entry
 @Component
 struct ServicePage {
+  private context = getContext(this) as common.UIAbilityContext;
+
   @Styles
   bStyle(){
     .width('100%')
@@ -250,20 +251,29 @@ struct ServicePage {
                 }).catch((err: BusinessError) => {
                   Logger.error(TAG, `Failed to obtain the audio scene mode ${err}`);
                 });
+
               })
 
-            Button('检测录制状态')
+            Button('检测截屏/投屏/录屏')
               .bStyle()
               .onClick(() => {
-                let avRecorder: media.AVRecorder;
-                media.createAVRecorder().then((recorder: media.AVRecorder) => {
-                  avRecorder = recorder;
-                  let state = avRecorder.state
-
-                  Logger.debug(TAG, `录屏状态：${state}`);
-                }, (error: BusinessError) => {
-                  Logger.error(TAG, 'createAVRecorder failed');
-                })
+                try {
+                  let ret: boolean = false;
+                  ret = display.isCaptured();
+                  Logger.debug(TAG, 'display.isCaptured: ' + ret);
+                  /*        let displayClass: Array<display.Display> = [];
+                          let promise: Promise<Array<display.Display>> = display.getAllDisplays();
+                          promise.then((data: Array<display.Display>) => {
+                            displayClass = data;
+                            Logger.debug(TAG, 'Succeeded in obtaining all the display objects. Data: ' + JSON.stringify(data));
+                          }).catch((err: BusinessError) => {
+                            Logger.error(TAG,
+                              'Failed to obtain all the display objects. Code: ${err.code}, message: ${err.message}');
+                          });*/
+                } catch (err) {
+                  let error = err as BusinessError
+                  Logger.error(TAG, `call 检测录制状态 failed, error code: ${err.code}, message: ${err.message}.`);
+                }
 
               })
           }
