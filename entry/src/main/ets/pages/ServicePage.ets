@@ -11,6 +11,7 @@ import { AAID } from '@kit.PushKit';
 import DrmModel from '../viewmodel/DrmModel';
 import { audio } from '@kit.AudioKit';
 import { display } from '@kit.ArkUI';
+
 const TAG = 'ServicePage'
 
 function stringToArray(str: string): Uint8Array {
@@ -242,18 +243,50 @@ struct ServicePage {
                 Logger.debug(TAG, `mediaKeySystemDescriptionList:${mediaKeySystemDescriptionList.toString()}`);
               })
 
-            Button('AudioScene')
+            Button('检测音频场景')
               .bStyle()
               .onClick(() => {
+                //这种应该可以检测微信/钉钉语音
                 let audioManager = audio.getAudioManager();
+                let audioRoutingManager = audioManager.getRoutingManager()
                 audioManager.getAudioScene().then((value: audio.AudioScene) => {
                   Logger.debug(TAG, `Promise returned to indicate that the audio scene mode is obtained ${value}.`);
                 }).catch((err: BusinessError) => {
                   Logger.error(TAG, `Failed to obtain the audio scene mode ${err}`);
                 });
+                try {
+                  //查看音频设备列表
+                  let data: audio.AudioDeviceDescriptors =
+                    audioRoutingManager.getDevicesSync(audio.DeviceFlag.OUTPUT_DEVICES_FLAG);
+                  Logger.debug(TAG, `Indicate that the device list is obtained ${JSON.stringify(data)}`);
+                } catch (err) {
+                  let error = err as BusinessError;
+                  Logger.debug(TAG, `Failed to obtain the device list. ${error}`);
+                }
+              })
+            Button('检测通话状态')
+              .bStyle()
+              .onClick(() => {
+                let audioManager = audio.getAudioManager();
+                let audioStreamManager = audioManager.getStreamManager()
+                // try {
+                //   let audioEffectInfoArray: audio.AudioEffectInfoArray =
+                //     audioStreamManager.getAudioEffectInfoArraySync(audio.StreamUsage.STREAM_USAGE_VOICE_COMMUNICATION);
+                //   Logger.debug(TAG, `The effect modes are: ${audioEffectInfoArray}`);
+                // } catch (err) {
+                //   let error = err as BusinessError;
+                //   Logger.error(TAG, `getAudioEffectInfoArraySync ERROR: ${error}`);
+                // }
+                try {
+                  //检测是否在语音通话
+                  let value: boolean = audioStreamManager.isActiveSync(audio.AudioVolumeType.VOICE_CALL);
+                  Logger.debug(TAG, `Indicate that the active status of the stream is obtained ${value}.`);
+                } catch (err) {
+                  let error = err as BusinessError;
+                  Logger.debug(TAG, `Failed to obtain the active status of the stream ${error}.`);
+                }
 
               })
-
             Button('检测截屏/投屏/录屏')
               .bStyle()
               .onClick(() => {
