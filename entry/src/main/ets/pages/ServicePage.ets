@@ -310,11 +310,11 @@ struct ServicePage {
 
               })
           }
-          .padding({ left: '20vp', right: '20vp' })
+          .padding({ left: '20vp', right: '20vp',bottom:'50vp' })
           .width(LAYOUT_WIDTH_OR_HEIGHT)
-          .height(LAYOUT_WIDTH_OR_HEIGHT)
+         // .height(LAYOUT_WIDTH_OR_HEIGHT) //高度不要设置，scrollview无法滚动到底部
           .alignItems(HorizontalAlign.Center)
-          .margin({ bottom: '200vp' })
+          .margin({ bottom: '50vp' })
         }
         .scrollBar(BarState.Off)
         .edgeEffect(EdgeEffect.Spring)

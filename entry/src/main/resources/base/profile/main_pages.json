@@ -8,6 +8,7 @@
     "pages/NetworkPage",
     "pages/NativePage",
     "pages/BlackboxPage",
-    "pages/ServicePage"
+    "pages/ServicePage",
+    "pages/SettingPage"
   ]
 }

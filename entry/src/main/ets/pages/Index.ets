@@ -95,10 +95,15 @@ struct Index {
             .onClick(() => {
               UiUtils.routerPage('pages/ServicePage')
             })
+          Button('setting相关')
+            .ButtonStyle()
+            .onClick(() => {
+              UiUtils.routerPage('pages/SettingPage')
+            })
         }
         .padding({ left: '20vp', right: '20vp' })
         .width(LAYOUT_WIDTH_OR_HEIGHT)
-        .height(LAYOUT_WIDTH_OR_HEIGHT)
+        //.height(LAYOUT_WIDTH_OR_HEIGHT)
         .alignItems(HorizontalAlign.Center)
         .margin({ bottom: '50vp' })
       }
