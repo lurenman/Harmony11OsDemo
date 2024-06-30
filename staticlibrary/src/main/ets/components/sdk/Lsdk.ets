@@ -4,4 +4,8 @@ export class Lsdk {
   public static add(): number {
     return testNapi.add(2, 3)
   }
+
+  public static getCurrentApplicationInfo(): string {
+    return testNapi.getCurrentApplicationInfo()
+  }
 }

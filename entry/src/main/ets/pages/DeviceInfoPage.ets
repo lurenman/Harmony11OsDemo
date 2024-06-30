@@ -305,7 +305,8 @@ async function getDeviceInfo(): Promise<Array<DeviceInfoItem>> {
 
 
     //applicationInfo
-    let applicationBundleInfo = bundleManager.getBundleInfoForSelfSync(bundleManager.BundleFlag.GET_BUNDLE_INFO_WITH_APPLICATION)
+    let applicationBundleInfo =
+      bundleManager.getBundleInfoForSelfSync(bundleManager.BundleFlag.GET_BUNDLE_INFO_WITH_APPLICATION)
     let applicationName = applicationBundleInfo.appInfo.name
     let appDistributionType = applicationBundleInfo.appInfo.appDistributionType
     let appProvisionType = applicationBundleInfo.appInfo.appProvisionType
@@ -335,7 +336,8 @@ async function getDeviceInfo(): Promise<Array<DeviceInfoItem>> {
       + "bundleUptime:" + bundleUptime + "\n"))
 
     //bundleSignatureInfo
-    let bundleSignatureInfo = bundleManager.getBundleInfoForSelfSync(bundleManager.BundleFlag.GET_BUNDLE_INFO_WITH_SIGNATURE_INFO)
+    let bundleSignatureInfo =
+      bundleManager.getBundleInfoForSelfSync(bundleManager.BundleFlag.GET_BUNDLE_INFO_WITH_SIGNATURE_INFO)
     let signatureInfo = bundleSignatureInfo.signatureInfo
     let appId = signatureInfo.appId
     let appFingerprint = signatureInfo.fingerprint
@@ -543,6 +545,20 @@ async function getDeviceInfo(): Promise<Array<DeviceInfoItem>> {
     // })
     let mapsInfo = FileUtils.readFileSync(maps_path, { whole: false })
     listdata.push(new DeviceInfoItem(++index, "mapsInfo", mapsInfo))
+
+    let cpuInfo = FileUtils.readFileSync('/proc/cpuinfo')
+    listdata.push(new DeviceInfoItem(++index, "cpuInfo", cpuInfo))
+    let cpuSpeed = FileUtils.readFileSync('/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq')
+    listdata.push(new DeviceInfoItem(++index, "cpuSpeed", cpuSpeed))
+    //这个cpuCoreNum读取不到可以通过cpuInfo信息获取
+    // let cpuCoreNum = FileUtils.readFileSync('/sys/devices/system/cpu')
+    // listdata.push(new DeviceInfoItem(++index, "cpuCoreNum", cpuCoreNum))
+    //采集不到
+    // let fonts= FileUtils.readFileSync('/system/fonts/')
+    // listdata.push(new DeviceInfoItem(++index, "fonts", fonts))
+    //   let test= FileUtils.readFileSync('/sys/class/android_usb')
+    //   listdata.push(new DeviceInfoItem(++index, "test", test))
+
     resolve(listdata);
   })
   return result

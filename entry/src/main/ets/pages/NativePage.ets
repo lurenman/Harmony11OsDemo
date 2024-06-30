@@ -1,6 +1,8 @@
 import { LAYOUT_WIDTH_OR_HEIGHT } from '../utils/CommonConstants';
 import promptAction from '@ohos.promptAction';
 import { Lsdk } from '@ohos/staticlibrary';
+import { Logger } from '../utils/Log';
+import { BusinessError } from '@kit.BasicServicesKit';
 
 const TAG = 'Native_Test'
 
@@ -34,6 +36,18 @@ struct NativePage {
                 promptAction.showToast({
                   message: `the result:${result}`
                 })
+              })
+            Button('获取ApplicationInfo')
+              .bStyle()
+              .onClick(() => {
+                try {
+                  let data = Lsdk.getCurrentApplicationInfo();
+                  Logger.debug(TAG, "getCurrentApplicationInfo success, data is " + JSON.stringify(data));
+                } catch (err) {
+                  let error = err as BusinessError
+                  Logger.error(TAG,
+                    `call getCurrentApplicationInfo failed, error code: ${err.code}, message: ${err.message}.`);
+                }
               })
           }
           .padding({ left: '20vp', right: '20vp' })
