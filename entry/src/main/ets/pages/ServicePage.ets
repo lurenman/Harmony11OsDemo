@@ -11,6 +11,7 @@ import { AAID } from '@kit.PushKit';
 import DrmModel from '../viewmodel/DrmModel';
 import { audio } from '@kit.AudioKit';
 import { display } from '@kit.ArkUI';
+import { i18n } from '@kit.LocalizationKit';
 
 const TAG = 'ServicePage'
 
@@ -309,10 +310,53 @@ struct ServicePage {
                 }
 
               })
+
+            Button('获取系统语言/区域/时区')
+              .bStyle()
+              .onClick(() => {
+                // 获取系统语言
+                try {
+                  //zh-Hans
+                  let systemLanguage = i18n.System.getSystemLanguage(); // systemLanguage为当前系统语言
+                  Logger.debug(TAG, `systemLanguage:${systemLanguage}`);
+                } catch (error) {
+                  Logger.error(TAG,
+                    `call System.getSystemLanguage failed, error code: ${error.code}, message: ${error.message}.`);
+                }
+
+                // 获取系统地区
+                try {
+                  //CN
+                  let systemRegion = i18n.System.getSystemRegion(); // systemRegion为当前系统地区
+                  Logger.debug(TAG, `systemRegion:${systemRegion}`);
+                } catch (error) {
+                  Logger.error(TAG,
+                    `call System.getSystemRegion failed, error code: ${error.code}, message: ${error.message}.`);
+                }
+
+                // 获取系统区域
+                try {
+                  //zh-Hans-CN
+                  let systemLocale = i18n.System.getSystemLocale(); // systemLocale为当前系统区域
+                  Logger.debug(TAG, `systemLocale:${systemLocale}`);
+                } catch (error) {
+                  Logger.error(TAG,
+                    `call System.getSystemLocale failed, error code: ${error.code}, message: ${error.message}.`);
+                }
+                try {
+                  //Asia/Shanghai
+                  const tz = i18n.getTimeZone()
+                  const timezone = tz.getID()
+                  Logger.debug(TAG, `timezone:${timezone}`);
+                } catch (error) {
+                  Logger.error(TAG,
+                    `call System.timezone failed, error code: ${error.code}, message: ${error.message}.`);
+                }
+              })
           }
-          .padding({ left: '20vp', right: '20vp',bottom:'50vp' })
+          .padding({ left: '20vp', right: '20vp', bottom: '50vp' })
           .width(LAYOUT_WIDTH_OR_HEIGHT)
-         // .height(LAYOUT_WIDTH_OR_HEIGHT) //高度不要设置，scrollview无法滚动到底部
+          // .height(LAYOUT_WIDTH_OR_HEIGHT) //高度不要设置，scrollview无法滚动到底部
           .alignItems(HorizontalAlign.Center)
           .margin({ bottom: '50vp' })
         }
