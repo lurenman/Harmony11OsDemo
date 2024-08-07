@@ -67,6 +67,22 @@ export class DrmModel {
     }
     return uuid
   }
+
+  /**
+   * 获取离线许可证Id
+   * @returns
+   */
+  public getOfflineMediaKeyIds(): Uint8Array[] | undefined {
+    let mediaKeysystem: drm.MediaKeySystem = drm.createMediaKeySystem("com.wiseplay.drm");
+    let offlineMediaKeyIds: Uint8Array[] | undefined = undefined;
+    try {
+      offlineMediaKeyIds = mediaKeysystem.getOfflineMediaKeyIds();
+    } catch (err) {
+      let error = err as BusinessError;
+      console.error(`getOfflineMediaKeyIds ERROR: ${error}`);
+    }
+    return offlineMediaKeyIds;
+  }
 }
 
 export default new DrmModel()
