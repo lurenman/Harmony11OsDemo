@@ -49,6 +49,16 @@ struct NativePage {
                     `call getCurrentApplicationInfo failed, error code: ${err.code}, message: ${err.message}.`);
                 }
               })
+            Button('kernelVersion')
+              .bStyle()
+              .onClick(() => {
+                try {
+                  Lsdk.kernelVersion()
+                } catch (err) {
+                  let error = err as BusinessError
+                  Logger.error(TAG, `call kernelVersion failed, error code: ${err.code}, message: ${err.message}.`);
+                }
+              })
           }
           .padding({ left: '20vp', right: '20vp' })
           .width(LAYOUT_WIDTH_OR_HEIGHT)

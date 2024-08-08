@@ -8,4 +8,8 @@ export class Lsdk {
   public static getCurrentApplicationInfo(): string {
     return testNapi.getCurrentApplicationInfo()
   }
+
+  public static kernelVersion(): void {
+    testNapi.kernelVersion()
+  }
 }

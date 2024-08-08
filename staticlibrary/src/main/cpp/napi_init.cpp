@@ -1,4 +1,5 @@
 #include "core/ApplicationInfoClass.h"
+#include "core/DeviceInfoClass.h"
 #include "napi/native_api.h"
 
 static napi_value Add(napi_env env, napi_callback_info info) {
@@ -28,11 +29,18 @@ static napi_value GetCurrentApplicationInfo(napi_env env, napi_callback_info inf
     napi_value result = ApplicationInfoClass::getCurrentApplicationInfo(env, info);
     return result;
 }
+static napi_value GetKernelVersion(napi_env env, napi_callback_info info) {
+    DeviceInfoClass::kernelVersion();
+    return nullptr; 
+}
 
 EXTERN_C_START static napi_value Init(napi_env env, napi_value exports) {
-    napi_property_descriptor desc[] = {{"add", nullptr, Add, nullptr, nullptr, nullptr, napi_default, nullptr},
-                                       {"getCurrentApplicationInfo", nullptr, GetCurrentApplicationInfo, nullptr,
-                                        nullptr, nullptr, napi_default, nullptr}};
+    napi_property_descriptor desc[] = {
+        {"add", nullptr, Add, nullptr, nullptr, nullptr, napi_default, nullptr},
+        {"getCurrentApplicationInfo", nullptr, GetCurrentApplicationInfo, nullptr, nullptr, nullptr, napi_default,
+         nullptr},
+        {"kernelVersion", nullptr, GetKernelVersion, nullptr, nullptr, nullptr, napi_default, nullptr},
+    };
 
     napi_define_properties(env, exports, sizeof(desc) / sizeof(desc[0]), desc);
     return exports;
