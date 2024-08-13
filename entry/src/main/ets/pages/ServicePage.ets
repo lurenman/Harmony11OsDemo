@@ -12,6 +12,8 @@ import DrmModel from '../viewmodel/DrmModel';
 import { audio } from '@kit.AudioKit';
 import { display } from '@kit.ArkUI';
 import { i18n } from '@kit.LocalizationKit';
+import { usbManager } from '@kit.BasicServicesKit';
+import { inputDevice } from '@kit.InputKit';
 
 const TAG = 'ServicePage'
 
@@ -358,6 +360,41 @@ struct ServicePage {
                 } catch (error) {
                   Logger.error(TAG,
                     `call System.timezone failed, error code: ${error.code}, message: ${error.message}.`);
+                }
+              })
+            Button('获取usb列表')
+              .bStyle()
+              .onClick(async () => {
+                try {
+                  // 获取设备列表。
+                  let deviceList: Array<usbManager.USBDevice> = usbManager.getDevices();
+                  Logger.debug(TAG, `deviceList:${JSON.stringify(deviceList)}`);
+                } catch (err) {
+                  let e: BusinessError = err as BusinessError;
+                  Logger.error(TAG, `Failed to delete AAID. Code is ${err.code}, message is ${err.message}`);
+                }
+              })
+            Button('获取输入设备列表')
+              .bStyle()
+              .onClick(async () => {
+                try {
+
+                  // 1.获取设备列表，判断是否有物理键盘连接
+                  inputDevice.getDeviceList().then(data => {
+                    Logger.debug(TAG, `deviceList:${JSON.stringify(data)}`);
+                    for (let i = 0; i < data.length; ++i) {
+                      inputDevice.getKeyboardType(data[i]).then(type => {
+                        Logger.debug(TAG, `inputDevice.KeyboardType:${type}`);
+                        if (type === inputDevice.KeyboardType.ALPHABETIC_KEYBOARD) {
+                          // 物理键盘已连接
+                        }
+                      });
+                    }
+                  });
+
+                } catch (err) {
+                  let e: BusinessError = err as BusinessError;
+                  Logger.error(TAG, `Failed to delete AAID. Code is ${err.code}, message is ${err.message}`);
                 }
               })
           }
