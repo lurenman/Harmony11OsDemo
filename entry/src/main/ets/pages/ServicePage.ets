@@ -14,8 +14,13 @@ import { display } from '@kit.ArkUI';
 import { i18n } from '@kit.LocalizationKit';
 import { usbManager } from '@kit.BasicServicesKit';
 import { inputDevice } from '@kit.InputKit';
+import wifiManager from '@ohos.wifiManager';
 
 const TAG = 'ServicePage'
+
+function getIpAddrFromNum(ipNum: number): string {
+  return (ipNum >>> 24) + '.' + (ipNum >> 16 & 0xFF) + '.' + (ipNum >> 8 & 0xFF) + '.' + (ipNum & 0xFF);
+}
 
 function stringToArray(str: string): Uint8Array {
   let textEncoder = new util.TextEncoder();
@@ -371,14 +376,13 @@ struct ServicePage {
                   Logger.debug(TAG, `deviceList:${JSON.stringify(deviceList)}`);
                 } catch (err) {
                   let e: BusinessError = err as BusinessError;
-                  Logger.error(TAG, `Failed to delete AAID. Code is ${err.code}, message is ${err.message}`);
+                  Logger.error(TAG, `Failed to usbManager.getDevices. Code is ${err.code}, message is ${err.message}`);
                 }
               })
             Button('获取输入设备列表')
               .bStyle()
               .onClick(async () => {
                 try {
-
                   // 1.获取设备列表，判断是否有物理键盘连接
                   inputDevice.getDeviceList().then(data => {
                     Logger.debug(TAG, `deviceList:${JSON.stringify(data)}`);
@@ -394,7 +398,60 @@ struct ServicePage {
 
                 } catch (err) {
                   let e: BusinessError = err as BusinessError;
-                  Logger.error(TAG, `Failed to delete AAID. Code is ${err.code}, message is ${err.message}`);
+                  Logger.error(TAG,
+                    `Failed to inputDevice.getDeviceList. Code is ${err.code}, message is ${err.message}`);
+                }
+              })
+
+            Button('获取WifiLinkedInfo信息')
+              .bStyle()
+              .onClick(async () => {
+                try {
+                  let isWifiActive = wifiManager.isWifiActive()
+                  Logger.debug(TAG, `wifilinkedInfo isWifiActive:${isWifiActive}`);
+                  if (isWifiActive) {
+                    // 获取WLAN连接的相关信息。
+                    let linkedInfo: wifiManager.WifiLinkedInfo = await wifiManager.getLinkedInfo()
+                    Logger.debug(TAG, `wifilinkedInfo linkedInfo.ipAddress:${getIpAddrFromNum(linkedInfo.ipAddress)}`);
+                    Logger.debug(TAG, `wifilinkedInfo:${JSON.stringify(linkedInfo)}`);
+                  }
+                } catch (err) {
+                  let e: BusinessError = err as BusinessError;
+                  Logger.error(TAG, `Failed to get WifiLinkedInfo. Code is ${err.code}, message is ${err.message}`);
+                }
+              })
+            Button('获取IpInfo信息')
+              .bStyle()
+              .onClick(async () => {
+                try {
+                  let isWifiActive = wifiManager.isWifiActive()
+                  Logger.debug(TAG, `wifilinkedInfo isWifiActive:${isWifiActive}`);
+                  if (isWifiActive) {
+                    // 获取WLAN连接的ip信息
+                    let ipInfo = wifiManager.getIpInfo();
+                    Logger.debug(TAG, `ipInfo:${JSON.stringify(ipInfo)}`);
+                  }
+                } catch (err) {
+                  let e: BusinessError = err as BusinessError;
+                  Logger.error(TAG, `Failed to get ipInfo. Code is ${err.code}, message is ${err.message}`);
+                }
+              })
+
+            Button('获取Ipv6Info信息')
+              .bStyle()
+              .onClick(async () => {
+                try {
+                  let isWifiActive = wifiManager.isWifiActive()
+                  Logger.debug(TAG, `wifilinkedInfo isWifiActive:${isWifiActive}`);
+                  if (isWifiActive) {
+                    // 获取WLAN连接的ip信息
+                    let ipInfo = wifiManager.getIpv6Info()
+                    ipInfo.linkIpv6Address
+                    Logger.debug(TAG, `Ipv6Info:${JSON.stringify(ipInfo)}`);
+                  }
+                } catch (err) {
+                  let e: BusinessError = err as BusinessError;
+                  Logger.error(TAG, `Failed to get Ipv6Info. Code is ${err.code}, message is ${err.message}`);
                 }
               })
           }
