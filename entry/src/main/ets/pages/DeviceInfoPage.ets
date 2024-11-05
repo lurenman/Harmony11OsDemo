@@ -281,6 +281,10 @@ async function getDeviceInfo(): Promise<Array<DeviceInfoItem>> {
     listdata.push(new DeviceInfoItem(++index, "udid", udid))
     console.info('the value of the deviceinfo udid is :' + udid);
 
+    let odid: string = deviceinfo.ODID;
+    listdata.push(new DeviceInfoItem(++index, "odid", odid))
+    console.info('the value of the deviceinfo odid is :' + odid);
+
     let distributionOSName: string = deviceinfo.distributionOSName
     listdata.push(new DeviceInfoItem(++index, "distributionOSName", distributionOSName))
     console.info('the value of the deviceinfo distributionOSName is :' + distributionOSName);
