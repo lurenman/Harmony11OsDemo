@@ -247,15 +247,11 @@ struct ServicePage {
                 Logger.debug(TAG, `isSupported:${isSupported}`);
                 let uuid = DrmModel.getMediaKeySystemUuid("com.wiseplay.drm")
                 Logger.debug(TAG, `drm uuid:${uuid}`);
+
                 let mediaKeySystemDescriptionList = DrmModel.getMediaKeySystems()
                 Logger.debug(TAG, `mediaKeySystemDescriptionList:${JSON.stringify(mediaKeySystemDescriptionList)}`);
-                let offlineIdUint8Array = DrmModel.getOfflineMediaKeyIds()
-                if (offlineIdUint8Array) {
-                  for (let i = 0; i < offlineIdUint8Array.length; i++) {
-                    let offlineId = arrayToString(offlineIdUint8Array[i])
-                    Logger.debug(TAG, `getOfflineMediaKeyIds offlineId:${offlineId}  index:${i}`);
-                  }
-                }
+                let deviceUniqueId = DrmModel.getDeviceUniqueId()
+                Logger.debug(TAG, `drm deviceUniqueId:${deviceUniqueId}`);
               })
 
             Button('检测音频场景')

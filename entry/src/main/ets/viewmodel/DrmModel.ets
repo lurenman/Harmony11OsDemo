@@ -1,6 +1,10 @@
 import drm from '@ohos.multimedia.drm';
 import { BusinessError } from '@ohos.base';
 
+export function bytesToHex(bytes: Uint8Array): string {
+  return Array.from(bytes).map((b: number) => b.toString(16).padStart(2, '0')).join('');
+}
+
 export class DrmModel {
   /**
    * 通过isMediaKeySystemSupported方法，查询设备是否支持对应的插件类型。
@@ -82,6 +86,20 @@ export class DrmModel {
       console.error(`getOfflineMediaKeyIds ERROR: ${error}`);
     }
     return offlineMediaKeyIds;
+  }
+
+  public getDeviceUniqueId(): string {
+    let deviceUniqueId = ''
+    let mediaKeySystem: drm.MediaKeySystem = drm.createMediaKeySystem("com.wiseplay.drm");
+    try {
+      let deviceUniqueIdBytes: Uint8Array =
+        mediaKeySystem.getConfigurationByteArray("deviceUniqueId"); // 确保deviceUniqueId属性是存在的
+      deviceUniqueId = bytesToHex(deviceUniqueIdBytes)
+    } catch (err) {
+      let error = err as BusinessError;
+      console.error(`getConfigurationByteArray ERROR: ${error}`);
+    }
+    return deviceUniqueId
   }
 }
 
