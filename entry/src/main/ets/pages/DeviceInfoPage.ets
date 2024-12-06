@@ -15,6 +15,8 @@ import statvfs from '@ohos.file.statvfs';
 import fs from '@ohos.file.fs';
 import identifier from '@ohos.identifier.oaid';
 import FileUtils from '../utils/FileUtils';
+import { common } from '@kit.AbilityKit';
+import json from '@ohos.util.json';
 
 const TAG = 'DeviceInfoPage'
 
@@ -44,7 +46,8 @@ struct DeviceInfoPage {
   }
 
   onPageShow() {
-    let promise = getDeviceInfo()
+    let context: Context = getContext(this) as common.UIAbilityContext;
+    let promise = getDeviceInfo(context)
     promise.then((dataList: Array<DeviceInfoItem>) => {
       this.mDataList = dataList
     }).catch((err: BusinessError) => {
@@ -94,7 +97,7 @@ struct DeviceInfoPage {
   }
 }
 
-async function getDeviceInfo(): Promise<Array<DeviceInfoItem>> {
+async function getDeviceInfo(context: Context): Promise<Array<DeviceInfoItem>> {
   const result: Array<DeviceInfoItem> = await new Promise(async (resolve: Function) => {
     let listdata = new Array<DeviceInfoItem>()
     let index = 0;
@@ -563,6 +566,8 @@ async function getDeviceInfo(): Promise<Array<DeviceInfoItem>> {
     //   let test= FileUtils.readFileSync('/sys/class/android_usb')
     //   listdata.push(new DeviceInfoItem(++index, "test", test))
 
+    let cloneIndex = context.getApplicationContext().getCurrentAppCloneIndex()
+    listdata.push(new DeviceInfoItem(++index, "cloneIndex", cloneIndex + ''))
     resolve(listdata);
   })
   return result
