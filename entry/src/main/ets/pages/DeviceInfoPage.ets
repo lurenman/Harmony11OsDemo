@@ -314,18 +314,8 @@ async function getDeviceInfo(context: Context): Promise<Array<DeviceInfoItem>> {
     //applicationInfo
     let applicationBundleInfo =
       bundleManager.getBundleInfoForSelfSync(bundleManager.BundleFlag.GET_BUNDLE_INFO_WITH_APPLICATION)
-    let applicationName = applicationBundleInfo.appInfo.name
-    let appDistributionType = applicationBundleInfo.appInfo.appDistributionType
-    let appProvisionType = applicationBundleInfo.appInfo.appProvisionType
-    let systemApp = applicationBundleInfo.appInfo.systemApp
-    let appBundleType = applicationBundleInfo.appInfo.bundleType
-    let appDebug = applicationBundleInfo.appInfo.debug
-    listdata.push(new DeviceInfoItem(++index, "applicationInfo", "applicationName:" + applicationName + "\n"
-      + "appDistributionType:" + appDistributionType + "\n"
-      + "appProvisionType:" + appProvisionType + "\n"
-      + "systemApp:" + systemApp + "\n"
-      + "appBundleType:" + appBundleType + "\n"
-      + "appDebug:" + appDebug + "\n"))
+    console.info('the value of the deviceinfo applicationBundleInfo.appInfo is :' + json.stringify(applicationBundleInfo.appInfo));
+    listdata.push(new DeviceInfoItem(++index, "applicationInfo", json.stringify(applicationBundleInfo.appInfo)))
 
     //bundleInfo
     let defaultBundleInfo = bundleManager.getBundleInfoForSelfSync(bundleManager.BundleFlag.GET_BUNDLE_INFO_DEFAULT)
