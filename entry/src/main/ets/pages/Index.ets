@@ -100,6 +100,11 @@ struct Index {
             .onClick(() => {
               UiUtils.routerPage('pages/SettingPage')
             })
+          Button('window相关')
+            .ButtonStyle()
+            .onClick(() => {
+              UiUtils.routerPage('pages/WindowPage')
+            })
         }
         .padding({ left: '20vp', right: '20vp' })
         .width(LAYOUT_WIDTH_OR_HEIGHT)

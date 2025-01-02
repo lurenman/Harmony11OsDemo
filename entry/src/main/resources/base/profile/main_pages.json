@@ -9,6 +9,7 @@
     "pages/NativePage",
     "pages/BlackboxPage",
     "pages/ServicePage",
-    "pages/SettingPage"
+    "pages/SettingPage",
+    "pages/WindowPage"
   ]
 }
