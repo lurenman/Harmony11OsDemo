@@ -314,7 +314,8 @@ async function getDeviceInfo(context: Context): Promise<Array<DeviceInfoItem>> {
     //applicationInfo
     let applicationBundleInfo =
       bundleManager.getBundleInfoForSelfSync(bundleManager.BundleFlag.GET_BUNDLE_INFO_WITH_APPLICATION)
-    console.info('the value of the deviceinfo applicationBundleInfo.appInfo is :' + json.stringify(applicationBundleInfo.appInfo));
+    let lable = context.resourceManager.getStringSync(applicationBundleInfo.appInfo.labelId)
+    console.info(`the value of the deviceinfo applicationBundleInfo lable:${lable}  appInfo is :${json.stringify(applicationBundleInfo.appInfo)}}`);
     listdata.push(new DeviceInfoItem(++index, "applicationInfo", json.stringify(applicationBundleInfo.appInfo)))
 
     //bundleInfo
