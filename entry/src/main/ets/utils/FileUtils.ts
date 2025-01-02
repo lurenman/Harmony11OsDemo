@@ -1,4 +1,4 @@
-import fs from '@ohos.file.fs';
+import fs, { ListFileOptions } from '@ohos.file.fs';
 import buffer from '@ohos.buffer';
 import { BusinessError } from '@ohos.base';
 
@@ -207,7 +207,8 @@ export class FileUtils {
     }
     return result
   }
-  public readFileSyncTest(filePath: string ): ArrayBuffer {
+
+  public readFileSyncTest(filePath: string): ArrayBuffer {
     let readSize = 0;
     let bufSize = 4336;
 
@@ -228,6 +229,32 @@ export class FileUtils {
       console.error(`call readFileSync failed, error code: ${err.code}, message: ${err.message}.`);
     }
     return arrayBuffer;
+  }
+
+  /**
+   * 列出文件夹下所有文件名，支持递归列出所有文件名（包含子目录下），支持文件过滤，使用Promise异步回调。
+   * @param path string 文件夹的应用沙箱路径。
+   * @param options 文件过滤选项。默认不进行过滤。
+   *                  recursion boolean 是否递归子目录下文件名，默认为false。
+   *                  listNum number 列出文件名数量。当设置0时，列出所有文件，默认为0。
+   *                  filter Filter 文件过滤选项。当前仅支持后缀名匹配、文件名模糊查询、文件大小过滤、最近修改时间过滤。
+   * @returns
+   */
+  listFile(path: string, options?: ListFileOptions): Promise<string[]> {
+    return fs.listFile(path, options);
+  }
+
+  /**
+   * 列出文件夹下所有文件名，支持递归列出所有文件名（包含子目录下），支持文件过滤，以同步方法。
+   * @param path string 文件夹的应用沙箱路径。
+   * @param options 文件过滤选项。默认不进行过滤。
+   *                  recursion boolean 是否递归子目录下文件名，默认为false。
+   *                  listNum number 列出文件名数量。当设置0时，列出所有文件，默认为0。
+   *                  filter Filter 文件过滤选项。当前仅支持后缀名匹配、文件名模糊查询、文件大小过滤、最近修改时间过滤。
+   * @returns
+   */
+  listFileSync(path: string, options?: ListFileOptions): string[] {
+    return fs.listFileSync(path, options);
   }
 }
 

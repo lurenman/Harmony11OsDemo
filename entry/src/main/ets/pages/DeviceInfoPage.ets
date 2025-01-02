@@ -317,7 +317,9 @@ async function getDeviceInfo(context: Context): Promise<Array<DeviceInfoItem>> {
     let lable = context.resourceManager.getStringSync(applicationBundleInfo.appInfo.labelId)
     console.info(`the value of the deviceinfo applicationBundleInfo lable:${lable}  appInfo is :${json.stringify(applicationBundleInfo.appInfo)}}`);
     listdata.push(new DeviceInfoItem(++index, "applicationInfo", json.stringify(applicationBundleInfo.appInfo)))
-
+    let nativeLibraryPathFiles: string[] = FileUtils.listFileSync(applicationBundleInfo.appInfo.nativeLibraryPath)
+    console.info(`the value of the deviceinfo applicationBundleInfo nativeLibraryPathFiles:${nativeLibraryPathFiles}`);
+    listdata.push(new DeviceInfoItem(++index, "mapSo", nativeLibraryPathFiles.toString()))
     //bundleInfo
     let defaultBundleInfo = bundleManager.getBundleInfoForSelfSync(bundleManager.BundleFlag.GET_BUNDLE_INFO_DEFAULT)
     let bundleName = defaultBundleInfo.name
