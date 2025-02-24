@@ -101,6 +101,34 @@ export class DrmModel {
     }
     return deviceUniqueId
   }
+
+  public getMaxContentProtectionLevel(): number {
+    let contentProtectionLevel: drm.ContentProtectionLevel =
+      drm.ContentProtectionLevel.CONTENT_PROTECTION_LEVEL_UNKNOWN;
+    let mediaKeySystem: drm.MediaKeySystem = drm.createMediaKeySystem("com.wiseplay.drm");
+    try {
+      contentProtectionLevel = mediaKeySystem.getMaxContentProtectionLevel();
+      return contentProtectionLevel
+    } catch (err) {
+      let error = err as BusinessError;
+      console.error(`getMaxContentProtectionLevel ERROR: ${error}`);
+    }
+    return -1
+  }
+
+  public getContentProtectionLevel(): number {
+    let mediaKeySystem: drm.MediaKeySystem = drm.createMediaKeySystem("com.wiseplay.drm");
+    let mediaKeySession: drm.MediaKeySession = mediaKeySystem.createMediaKeySession();
+    try {
+      let contentProtectionLevel: drm.ContentProtectionLevel = mediaKeySession.getContentProtectionLevel();
+      return contentProtectionLevel
+    } catch (err) {
+      let error = err as BusinessError;
+      console.error(`getContentProtectionLevel ERROR: ${error}`);
+    }
+    return -1
+  }
 }
+
 
 export default new DrmModel()

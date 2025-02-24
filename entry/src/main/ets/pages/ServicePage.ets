@@ -252,6 +252,10 @@ struct ServicePage {
                 Logger.debug(TAG, `mediaKeySystemDescriptionList:${JSON.stringify(mediaKeySystemDescriptionList)}`);
                 let deviceUniqueId = DrmModel.getDeviceUniqueId()
                 Logger.debug(TAG, `drm deviceUniqueId:${deviceUniqueId}`);
+                let maxContentProtectionLevel = DrmModel.getMaxContentProtectionLevel()
+                Logger.debug(TAG, `drm maxContentProtectionLevel:${maxContentProtectionLevel}`);
+                let contentProtectionLevel= DrmModel.getContentProtectionLevel()
+                Logger.debug(TAG, `drm contentProtectionLevel:${contentProtectionLevel}`);
               })
 
             Button('检测音频场景')
