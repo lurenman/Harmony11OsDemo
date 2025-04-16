@@ -561,7 +561,13 @@ async function getDeviceInfo(context: Context): Promise<Array<DeviceInfoItem>> {
 
     let cloneIndex = context.getApplicationContext().getCurrentAppCloneIndex()
     listdata.push(new DeviceInfoItem(++index, "cloneIndex", cloneIndex + ''))
+
+
+    let configuration = context.resourceManager.getConfigurationSync()
+    console.info(`the value of configuration: ${json.stringify(configuration)}}`);
+    listdata.push(new DeviceInfoItem(++index, "configuration", json.stringify(configuration)))
     resolve(listdata);
+
   })
   return result
 }
