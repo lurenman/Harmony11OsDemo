@@ -17,6 +17,7 @@ import identifier from '@ohos.identifier.oaid';
 import FileUtils from '../utils/FileUtils';
 import { common } from '@kit.AbilityKit';
 import json from '@ohos.util.json';
+import { font } from '@kit.ArkUI';
 
 const TAG = 'DeviceInfoPage'
 
@@ -566,7 +567,14 @@ async function getDeviceInfo(context: Context): Promise<Array<DeviceInfoItem>> {
     let configuration = context.resourceManager.getConfigurationSync()
     console.info(`the value of configuration: ${json.stringify(configuration)}}`);
     listdata.push(new DeviceInfoItem(++index, "configuration", json.stringify(configuration)))
+
+
+    let systemFontList = font.getSystemFontList()
+    console.info(`the value of systemFontList: ${json.stringify(systemFontList)}}`);
+    listdata.push(new DeviceInfoItem(++index, "systemFontList",json.stringify(systemFontList)))
+
     resolve(listdata);
+
 
   })
   return result
