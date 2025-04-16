@@ -15,6 +15,7 @@ import { i18n } from '@kit.LocalizationKit';
 import { usbManager } from '@kit.BasicServicesKit';
 import { inputDevice } from '@kit.InputKit';
 import wifiManager from '@ohos.wifiManager';
+import { gamePerformance } from '@kit.GameServiceKit';
 
 const TAG = 'ServicePage'
 
@@ -254,7 +255,7 @@ struct ServicePage {
                 Logger.debug(TAG, `drm deviceUniqueId:${deviceUniqueId}`);
                 let maxContentProtectionLevel = DrmModel.getMaxContentProtectionLevel()
                 Logger.debug(TAG, `drm maxContentProtectionLevel:${maxContentProtectionLevel}`);
-                let contentProtectionLevel= DrmModel.getContentProtectionLevel()
+                let contentProtectionLevel = DrmModel.getContentProtectionLevel()
                 Logger.debug(TAG, `drm contentProtectionLevel:${contentProtectionLevel}`);
               })
 
@@ -451,6 +452,29 @@ struct ServicePage {
                   }
                 } catch (err) {
                   let e: BusinessError = err as BusinessError;
+                  Logger.error(TAG, `Failed to get Ipv6Info. Code is ${err.code}, message is ${err.message}`);
+                }
+              })
+
+            Button('获取gpu相关信息')
+              .bStyle()
+              .onClick(() => {
+                // 查询设备状态
+                try {
+                  let gpuParam: gamePerformance.DeviceInfoParameter = {
+                    deviceInfoType: gamePerformance.DeviceInfoType.GPU
+                  }
+                  let thermalParam: gamePerformance.DeviceInfoParameter = {
+                    deviceInfoType: gamePerformance.DeviceInfoType.THERMAL
+                  }
+                  let gameInfos: Array<gamePerformance.DeviceInfoParameter> = [gpuParam, thermalParam];
+                  gamePerformance.getDeviceInfoByScope(gameInfos).then((deviceInfo: gamePerformance.DeviceInfo) => {
+                    Logger.debug(TAG,
+                      `Succeeded in querying device gamePerformance info deviceInfo:${JSON.stringify(deviceInfo)}`);
+                  });
+                } catch (error) {
+                  // 查询失败
+                  let err = error as BusinessError;
                   Logger.error(TAG, `Failed to get Ipv6Info. Code is ${err.code}, message is ${err.message}`);
                 }
               })
