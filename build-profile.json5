@@ -6,12 +6,12 @@
         "type": "HarmonyOS",
         "material": {
           "certpath": "/Users/td/.ohos/config/default_Harmony11OsDemo_B1HS6dnV-KjBPydkEnI8bwkKW84lPM4cddd5l0yPEmU=.cer",
-          "storePassword": "0000001BBF3CDD99D0B3025F40895D103C387F78AA59B81569258E0991C3E1BBF5EDE4F3799103F85D493D",
           "keyAlias": "debugKey",
-          "keyPassword": "0000001B9B1F81B784E17C548EAD5A62FBDDA5C36A6F1E621763584BCB2FC82EEF258BDA2EA15E20DA04F7",
+          "keyPassword": "0000001B8F9F14011F231D896A4EEE3DE2DB1232FA8BA02CAF9DB13758FCAF48ED1627871F01E76E4FEF54",
           "profile": "/Users/td/.ohos/config/default_Harmony11OsDemo_B1HS6dnV-KjBPydkEnI8bwkKW84lPM4cddd5l0yPEmU=.p7b",
           "signAlg": "SHA256withECDSA",
-          "storeFile": "/Users/td/.ohos/config/default_Harmony11OsDemo_B1HS6dnV-KjBPydkEnI8bwkKW84lPM4cddd5l0yPEmU=.p12"
+          "storeFile": "/Users/td/.ohos/config/default_Harmony11OsDemo_B1HS6dnV-KjBPydkEnI8bwkKW84lPM4cddd5l0yPEmU=.p12",
+          "storePassword": "0000001B160ACD9199763D8E08CE8494FD239A836A3AEF92225BA199E36FAB1A19876CCA0203C13CD5EB0A"
         }
       }
     ],

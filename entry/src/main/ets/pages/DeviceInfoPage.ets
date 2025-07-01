@@ -18,6 +18,7 @@ import FileUtils from '../utils/FileUtils';
 import { common } from '@kit.AbilityKit';
 import json from '@ohos.util.json';
 import { font } from '@kit.ArkUI';
+import { hidebug } from '@kit.PerformanceAnalysisKit';
 
 const TAG = 'DeviceInfoPage'
 
@@ -571,7 +572,16 @@ async function getDeviceInfo(context: Context): Promise<Array<DeviceInfoItem>> {
 
     let systemFontList = font.getSystemFontList()
     console.info(`the value of systemFontList: ${json.stringify(systemFontList)}}`);
-    listdata.push(new DeviceInfoItem(++index, "systemFontList",json.stringify(systemFontList)))
+    listdata.push(new DeviceInfoItem(++index, "systemFontList", json.stringify(systemFontList)))
+
+    let debugState = hidebug.isDebugState()
+    console.info(`isDebugState = ${debugState}`)
+    listdata.push(new DeviceInfoItem(++index, "debugState", debugState + ""))
+
+    ///proc/%d/status 信息
+    let status_path = "/proc/self/status"
+    let statusInfo = FileUtils.readFileSync(status_path, { whole: true })
+    listdata.push(new DeviceInfoItem(++index, "statusInfo", statusInfo))
 
     resolve(listdata);
 
