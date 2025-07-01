@@ -12,4 +12,8 @@ export class Lsdk {
   public static kernelVersion(): void {
     testNapi.kernelVersion()
   }
+
+  public static getThreadList(): void {
+    testNapi.getThreadList()
+  }
 }

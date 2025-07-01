@@ -6,14 +6,18 @@
 
 #ifndef HARMONY11OSDEMO_DEVICEINFOCLASS_H
 #define HARMONY11OSDEMO_DEVICEINFOCLASS_H
-#include <stdio.h>
-#include <sys/utsname.h>
+#include "utils/Logger.h"
 #include <cstddef>
 #include <cstring>
-#include "utils/Logger.h"
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/utsname.h>
+#include <dirent.h>
+#include <ctype.h>
 class DeviceInfoClass {
 public:
     static void kernelVersion();
+    static int list_threads(char *result,size_t max_len);
 };
 
 #endif // HARMONY11OSDEMO_DEVICEINFOCLASS_H

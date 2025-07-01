@@ -31,7 +31,14 @@ static napi_value GetCurrentApplicationInfo(napi_env env, napi_callback_info inf
 }
 static napi_value GetKernelVersion(napi_env env, napi_callback_info info) {
     DeviceInfoClass::kernelVersion();
-    return nullptr; 
+    return nullptr;
+}
+
+static napi_value GetThreadList(napi_env env, napi_callback_info info) {
+    char threadList[512] = {};
+    DeviceInfoClass::list_threads(threadList, 512);
+    LOGD("threadList: %{public}s", threadList);
+    return nullptr;
 }
 
 EXTERN_C_START static napi_value Init(napi_env env, napi_value exports) {
@@ -40,6 +47,7 @@ EXTERN_C_START static napi_value Init(napi_env env, napi_value exports) {
         {"getCurrentApplicationInfo", nullptr, GetCurrentApplicationInfo, nullptr, nullptr, nullptr, napi_default,
          nullptr},
         {"kernelVersion", nullptr, GetKernelVersion, nullptr, nullptr, nullptr, napi_default, nullptr},
+        {"getThreadList", nullptr, GetThreadList, nullptr, nullptr, nullptr, napi_default, nullptr},
     };
 
     napi_define_properties(env, exports, sizeof(desc) / sizeof(desc[0]), desc);

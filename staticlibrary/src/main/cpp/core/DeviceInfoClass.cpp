@@ -44,3 +44,67 @@ void DeviceInfoClass::kernelVersion() {
     }
     LOGD("kernelVersion: %{public}s", kernelVer);
 }
+int DeviceInfoClass::list_threads(char *result, size_t max_len) {
+    const int max_count = 30;
+    char task_path[128] = {0};
+    pid_t pid = getpid();
+    snprintf(task_path, 128, "/proc/%d/task", pid);
+    DIR *task_dir;
+    if ((task_dir = opendir(task_path)) == NULL) {
+        return -1;
+    }
+
+    struct dirent *de;
+    size_t remaining = max_len;
+    int count = 0;
+    while ((de = readdir(task_dir)) != NULL) {
+        if (isdigit(de->d_name[0])) {
+            int tid = atoi(de->d_name);
+            if (tid == pid) {
+                LOGW("list thread: %d", pid);
+                continue;
+            }
+            if (++count > max_count) {
+                break;
+            }
+            char stat_path[256] = {0};
+            snprintf(stat_path, 256, "%s/%d/%s", task_path, tid, "stat");
+            FILE *fp = fopen(stat_path, "r");
+            char buf[256] = {0};
+            if (fp) {
+                fgets(buf, 256, fp);
+                char *t_name = NULL;
+                for (size_t i = 0; i < strnlen(buf, 256); i++) {
+                    if (buf[i] == '(') {
+                        t_name = &buf[i + 1];
+                    }
+
+                    if (buf[i] == ')') {
+                        buf[i] = '\0';
+                        break;
+                    }
+                }
+                if (t_name == NULL) {
+                    continue;
+                }
+                LOGD("list thread: %s", t_name);
+                size_t t_name_len = strnlen(t_name, max_len);
+                if (remaining > (t_name_len + 1)) {
+                    strcat(result, t_name);
+                    strcat(result, ",");
+                    remaining -= (t_name_len + 1);
+                }
+                fclose(fp);
+            }
+        }
+    }
+    size_t real_size = strlen(result);
+    if (real_size > 0) {
+        result[real_size - 1] = '\0';
+    }
+
+    if (task_dir) {
+        closedir(task_dir);
+    }
+    return 0;
+}
